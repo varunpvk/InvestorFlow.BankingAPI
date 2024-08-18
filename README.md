@@ -165,10 +165,13 @@ The application uses SQLite as the backend database. The database file is locate
 
 ### Setup
 
-	*	Run the SetupDatabase console application to create the required tables needed for the application to run.
-	*	Once run, copy the banking.db file created in the bin folder to IF.BankingAPI folder and copy it in the Data folder.
-	*	Run the SQLite3 tool to browse through the tables as shown in the diagram below (SQLite3 is shipped with the repo)
-	*	Once all the tables are seen in the databse, you can run the solution in debug mode and use the gateway endpoints to perform banking operations.
+*	Run the SetupDatabase console application to create the required tables needed for the application to run.
+
+*	Once run, copy the banking.db file created in the bin folder to IF.BankingAPI folder and copy it in the Data folder.
+
+*	Run the SQLite3 tool to browse through the tables as shown in the diagram below (SQLite3 is shipped with the repo)
+
+*	Once all the tables are seen in the databse, you can run the solution in debug mode and use the gateway endpoints to perform banking operations.
 
 ![Sqlite3 Usage](/Images/SqliteTooling.png)
 
