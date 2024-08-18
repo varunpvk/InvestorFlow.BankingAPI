@@ -3,16 +3,19 @@ using IF.Application.BankingService.Commands;
 using IF.Domain;
 using IF.Domain.ErrorMessages;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 
 namespace IF.Application.BankingService.CommandHandlers
 {
     public class DeleteBankAccountCommandHandler : ICommandHandler<DeleteBankAccountCommand, Result<bool, ValidationError>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<DeleteBankAccountCommandHandler> _logger;
 
-        public DeleteBankAccountCommandHandler(IUnitOfWork unitOfWork)
+        public DeleteBankAccountCommandHandler(IUnitOfWork unitOfWork, ILogger<DeleteBankAccountCommandHandler> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<Result<bool, ValidationError>> HandleAsync(DeleteBankAccountCommand command)
@@ -34,6 +37,7 @@ namespace IF.Application.BankingService.CommandHandlers
 
                         if(!deleteSuccess)
                         {
+                            _logger.LogError("Failed to delete transaction");
                             _unitOfWork.Rollback();
                             return Result<bool, ValidationError>.Failure(new ValidationError("Failed to delete transaction"));
                         }
@@ -46,6 +50,7 @@ namespace IF.Application.BankingService.CommandHandlers
 
                     if (!success)
                     {
+                        _logger.LogError("Failed to delete vault");
                         _unitOfWork.Rollback();
                         return Result<bool, ValidationError>.Failure(new ValidationError("Failed to delete vault"));
                     }
@@ -55,6 +60,7 @@ namespace IF.Application.BankingService.CommandHandlers
 
                     if (!success)
                     {
+                        _logger.LogError("Failed to delete account");
                         _unitOfWork.Rollback();
                         return Result<bool, ValidationError>.Failure(new ValidationError("Failed to delete account"));
                     }
@@ -64,16 +70,19 @@ namespace IF.Application.BankingService.CommandHandlers
 
                     if (!success)
                     {
+                        _logger.LogError("Failed to delete customer account");
                         _unitOfWork.Rollback();
                         return Result<bool, ValidationError>.Failure(new ValidationError("Failed to delete customer account"));
                     }
                 }
 
+                _logger.LogInformation("Bank account deleted successfully");
                 _unitOfWork.Commit();
                 return Result<bool, ValidationError>.Success(true);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Exception while deleting bank account");
                 _unitOfWork.Rollback();
                 return Result<bool, ValidationError>.Failure(new ValidationError($"Exception while deleting bank account: {ex.Message}"));
             }

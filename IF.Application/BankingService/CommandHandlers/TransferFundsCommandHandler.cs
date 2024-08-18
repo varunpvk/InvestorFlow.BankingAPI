@@ -6,16 +6,19 @@ using IF.Domain.Enums;
 using IF.Domain.ErrorMessages;
 using IF.Domain.ValueObjects;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 
 namespace IF.Application.BankingService.CommandHandlers
 {
     public class TransferFundsCommandHandler : ICommandHandler<TransferFundsCommand, Result<bool, ValidationError>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<TransferFundsCommandHandler> _logger;
 
-        public TransferFundsCommandHandler(IUnitOfWork unitOfWork)
+        public TransferFundsCommandHandler(IUnitOfWork unitOfWork, ILogger<TransferFundsCommandHandler> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<Result<bool, ValidationError>> HandleAsync(TransferFundsCommand command)
@@ -44,6 +47,7 @@ namespace IF.Application.BankingService.CommandHandlers
                             var success = await _unitOfWork.Vaults.UpdateAsync(vault);
                             if (!success)
                             {
+                                _logger.LogError("Failed to transfer funds");
                                 _unitOfWork.Rollback();
                                 return Result<bool, ValidationError>.Failure(new ValidationError("Failed to transfer funds"));
                             }
@@ -61,6 +65,7 @@ namespace IF.Application.BankingService.CommandHandlers
 
                             if (!transactionSuccess)
                             {
+                                _logger.LogError("Failed to add transaction");
                                 _unitOfWork.Rollback();
                                 return Result<bool, ValidationError>.Failure(new ValidationError("Failed to add transaction"));
                             }
@@ -77,6 +82,7 @@ namespace IF.Application.BankingService.CommandHandlers
                             var success = await _unitOfWork.Vaults.UpdateAsync(vault);
                             if (!success)
                             {
+                                _logger.LogError("Failed to transfer funds");
                                 _unitOfWork.Rollback();
                                 return Result<bool, ValidationError>.Failure(new ValidationError("Failed to transfer funds"));
                             }
@@ -95,21 +101,25 @@ namespace IF.Application.BankingService.CommandHandlers
 
                             if (!transactionSuccess)
                             {
+                                _logger.LogError("Failed to add transaction");
                                 _unitOfWork.Rollback();
                                 return Result<bool, ValidationError>.Failure(new ValidationError("Failed to add transaction"));
                             }
                         }
 
+                        _logger.LogInformation("Funds transferred successfully");
                         _unitOfWork.Commit();
                         return Result<bool, ValidationError>.Success(true);
                     }
                 }
 
+                _logger.LogError("Failed to transfer funds");
                 _unitOfWork.Rollback();
                 return Result<bool, ValidationError>.Failure(new ValidationError("Failed to transfer funds"));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Exception while transferring funds");
                 _unitOfWork.Rollback();
                 return Result<bool, ValidationError>.Failure(new ValidationError($"Exception while transferring funds: {ex.Message}"));
             }

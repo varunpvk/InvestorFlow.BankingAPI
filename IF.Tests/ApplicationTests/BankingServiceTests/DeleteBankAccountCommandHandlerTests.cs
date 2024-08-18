@@ -5,6 +5,7 @@ using IF.Domain.DTOs;
 using IF.Domain.Enums;
 using IF.Infrastructure;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace IF.Tests.ApplicationTests.BankingServiceTests
@@ -16,6 +17,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<DeleteBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -60,7 +62,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockCustomerAccountsRepository.Setup(o => o.DeleteAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(true);
 
-            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new DeleteBankAccountCommand(Guid.NewGuid()));
@@ -78,6 +80,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<DeleteBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -107,7 +110,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockTransactionsRepository.Setup(o => o.DeleteAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(false);
 
-            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new DeleteBankAccountCommand(Guid.NewGuid()));
@@ -125,6 +128,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<DeleteBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -163,7 +167,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockVaultsRepository.Setup(o => o.DeleteAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(false);
 
-            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new DeleteBankAccountCommand(Guid.NewGuid()));
@@ -181,6 +185,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<DeleteBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -222,7 +227,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockAccountsRepository.Setup(o => o.DeleteAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(false);
 
-            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new DeleteBankAccountCommand(Guid.NewGuid()));
@@ -240,6 +245,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<DeleteBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -284,7 +290,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockCustomerAccountsRepository.Setup(o => o.DeleteAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(false);
 
-            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new DeleteBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new DeleteBankAccountCommand(Guid.NewGuid()));

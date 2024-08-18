@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IF.BankingAPI.Controllers
 {
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "Banking API")]
     [ApiController]
     public class AuthController : ControllerBase
     {

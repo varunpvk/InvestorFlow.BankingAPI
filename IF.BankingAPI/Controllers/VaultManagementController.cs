@@ -9,7 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IF.BankingAPI.Controllers
 {
+    /// <summary>
+    /// Admin API for Vault Management Operations
+    /// </summary>
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "Banking API")]
     [ApiController]
     [Authorize]
     public class VaultManagementController : ControllerBase
@@ -21,6 +25,11 @@ namespace IF.BankingAPI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
+        /// <summary>
+        /// Creates a new Vault
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateVaultAsync([FromBody] CreateVaultCommand command)
         {
@@ -32,6 +41,11 @@ namespace IF.BankingAPI.Controllers
             );
         }
 
+        /// <summary>
+        /// Updates a Vault
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> UpdateVaultAsync([FromBody] UpdateVaultCommand command)
         {
@@ -43,6 +57,11 @@ namespace IF.BankingAPI.Controllers
             );
         }
 
+        /// <summary>
+        /// Deletes a Vault
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVaultAsync(Guid id)
         {
@@ -55,6 +74,11 @@ namespace IF.BankingAPI.Controllers
             );
         }
 
+        /// <summary>
+        /// Gets a Vault by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVaultAsync(Guid id)
         {

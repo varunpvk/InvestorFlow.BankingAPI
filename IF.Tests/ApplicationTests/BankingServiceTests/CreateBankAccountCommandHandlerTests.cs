@@ -7,6 +7,7 @@ using IF.Infrastructure;
 using IF.Infrastructure.BankingRepository;
 using Moq;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 
 namespace IF.Tests.ApplicationTests.BankingServiceTests
 {
@@ -17,6 +18,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<CreateBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -44,7 +46,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockCustomerAccountsRepository.Setup(o => o.AddAsync(It.IsAny<CustomerAccount>()))
                 .ReturnsAsync(true);
 
-            var handler = new CreateBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new CreateBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new CreateBankAccountCommand(Guid.NewGuid(), AccountType.Savings, DateTime.UtcNow));
@@ -62,6 +64,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<CreateBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -83,7 +86,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockAccountsRepository.Setup(o => o.AddAsync(It.IsAny<Account>()))
                 .ReturnsAsync(false);
 
-            var handler = new CreateBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new CreateBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new CreateBankAccountCommand(Guid.NewGuid(), AccountType.Savings, DateTime.UtcNow));
@@ -101,6 +104,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<CreateBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -125,7 +129,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockVaultsRepository.Setup(o => o.AddAsync(It.IsAny<Vault>()))
                 .ReturnsAsync(false);
 
-            var handler = new CreateBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new CreateBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new CreateBankAccountCommand(Guid.NewGuid(), AccountType.Savings, DateTime.UtcNow));
@@ -143,6 +147,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<CreateBankAccountCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -170,7 +175,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockCustomerAccountsRepository.Setup(o => o.AddAsync(It.IsAny<CustomerAccount>()))
                 .ReturnsAsync(false);
 
-            var handler = new CreateBankAccountCommandHandler(mockUnitOfWork.Object);
+            var handler = new CreateBankAccountCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new CreateBankAccountCommand(Guid.NewGuid(), AccountType.Savings, DateTime.UtcNow));

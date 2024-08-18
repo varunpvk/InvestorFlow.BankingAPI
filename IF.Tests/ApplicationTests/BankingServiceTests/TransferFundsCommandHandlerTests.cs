@@ -6,6 +6,7 @@ using IF.Domain.Entities;
 using IF.Domain.Enums;
 using IF.Infrastructure;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace IF.Tests.ApplicationTests.BankingServiceTests
@@ -17,6 +18,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<TransferFundsCommandHandler>>();  
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -29,7 +31,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new TransferFundsCommand(Guid.NewGuid(), AccountType.Savings, Guid.NewGuid(), 100, "USD");
 
-            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object);
+            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             mockCustomerAccounts.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync(new List<CustomerAccountDTO>
             {
@@ -70,6 +72,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<TransferFundsCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -82,7 +85,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new TransferFundsCommand(Guid.NewGuid(), AccountType.Savings, Guid.NewGuid(), 100, "USD");
 
-            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object);
+            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             mockCustomerAccounts.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync(new List<CustomerAccountDTO>
             {
@@ -123,6 +126,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<TransferFundsCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -135,7 +139,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new TransferFundsCommand(Guid.NewGuid(), AccountType.Savings, Guid.NewGuid(), 100, "USD");
 
-            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object);
+            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             mockCustomerAccounts.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync(new List<CustomerAccountDTO>
             {
@@ -177,6 +181,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<TransferFundsCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -189,7 +194,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new TransferFundsCommand(Guid.NewGuid(), AccountType.Savings, Guid.NewGuid(), 100, "USD");
 
-            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object);
+            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             mockCustomerAccounts.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync(new List<CustomerAccountDTO>
             {
@@ -231,6 +236,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<TransferFundsCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -243,7 +249,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new TransferFundsCommand(Guid.NewGuid(), AccountType.Savings, Guid.NewGuid(), 100, "USD");
 
-            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object);
+            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             mockCustomerAccounts.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync(new List<CustomerAccountDTO>
             {
@@ -285,6 +291,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<TransferFundsCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -297,7 +304,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new TransferFundsCommand(Guid.NewGuid(), AccountType.Savings, Guid.NewGuid(), 100, "USD");
 
-            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object);
+            var handler = new TransferFundsCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             mockCustomerAccounts.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync(new List<CustomerAccountDTO>
             {

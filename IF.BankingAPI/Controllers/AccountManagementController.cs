@@ -9,7 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IF.BankingAPI.Controllers
 {
-    [Route("api/[controller]")]
+    /// <summary>
+    /// Admin API for Banking Admin CRUD Operations
+    /// </summary>
+    [Route("api")]
+    [ApiExplorerSettings(GroupName = "Banking API")]
     [ApiController]
     [Authorize]
     public class AccountManagementController : ControllerBase
@@ -21,6 +25,11 @@ namespace IF.BankingAPI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
+        /// <summary>
+        /// Creates a new Account
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateAccountAsync([FromBody] CreateAccountCommand command)
         {
@@ -32,6 +41,11 @@ namespace IF.BankingAPI.Controllers
             );
         }
 
+        /// <summary>
+        /// Deletes an Account
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccountAsync(Guid id)
         {
@@ -44,6 +58,11 @@ namespace IF.BankingAPI.Controllers
             );
         }
 
+        /// <summary>
+        /// Gets an Account by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountAsync(Guid id)
         {

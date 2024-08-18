@@ -6,6 +6,7 @@ using IF.Domain.Enums;
 using IF.Domain.ValueObjects;
 using IF.Infrastructure;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace IF.Tests.ApplicationTests.BankingServiceTests
@@ -17,6 +18,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<GetTransactionHistoryQueryHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockTransactions = new Mock<ITransactionRepository>();
 
@@ -50,7 +52,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var query = new GetTransactionHistoryQuery(Guid.NewGuid());
 
-            var handler = new GetTransactionHistoryQueryHandler(mockUnitOfWork.Object);
+            var handler = new GetTransactionHistoryQueryHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(query);
@@ -67,6 +69,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<GetTransactionHistoryQueryHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockTransactions = new Mock<ITransactionRepository>();
 
@@ -79,7 +82,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var query = new GetTransactionHistoryQuery(Guid.NewGuid());
 
-            var handler = new GetTransactionHistoryQueryHandler(mockUnitOfWork.Object);
+            var handler = new GetTransactionHistoryQueryHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(query);

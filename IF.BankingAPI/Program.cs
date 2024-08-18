@@ -22,14 +22,27 @@ using IF.Domain.ErrorMessages;
 using IF.Infrastructure;
 using IF.Infrastructure.BankingRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Data.Sqlite;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Data;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/investorfllow-logs.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog(); // add this line to use serilog
 
 // Add services to the container.
 var configuration = builder.Configuration;
@@ -46,7 +59,6 @@ builder.Services.AddControllers()
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = " InvestorFlow Banking API", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -70,6 +82,22 @@ builder.Services.AddSwaggerGen(c =>
             new string[] { }
         }
     });
+
+    c.DocInclusionPredicate((docName, apiDesc) =>
+    {
+        if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+
+        var groupName = methodInfo.DeclaringType
+            .GetCustomAttributes(true)
+            .OfType<ApiExplorerSettingsAttribute>()
+            .Select(attr => attr.GroupName)
+            .FirstOrDefault();
+
+        return groupName == docName;
+    });
+
+    c.SwaggerDoc("InvestorFlow Banking", new OpenApiInfo { Title = "InvestorFlow Banking Gateway API", Version = "v1" });
+    c.SwaggerDoc("Banking API", new OpenApiInfo { Title = "Banking Admin API", Version = "v1" });
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -133,8 +161,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -145,7 +171,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "InvestorFlow Banking API v1");
+    c.SwaggerEndpoint("/swagger/InvestorFlow Banking/swagger.json", "InvestorFlow Banking Gateway API v1");
+    c.SwaggerEndpoint("/swagger/Banking API/swagger.json", "Banking Admin API V1");
     c.RoutePrefix = string.Empty;
 });
 
@@ -157,6 +184,21 @@ app.UseEndpoints(endpoints =>
 {
     _ = endpoints.MapControllers();
 });
+
+try
+{
+    Log.Information("Starting InvestorFlow Banking API");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application start-up failed");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 app.MapControllers();
 
-app.Run();
+
+

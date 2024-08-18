@@ -5,6 +5,7 @@ using IF.Domain.Entities;
 using IF.Domain.Enums;
 using IF.Infrastructure;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace IF.Tests.ApplicationTests.BankingServiceTests
@@ -16,6 +17,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<AddMoneyCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -50,7 +52,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockCustomerAccountsRepository.Setup(o => o.AddAsync(It.IsAny<CustomerAccount>()))
                 .ReturnsAsync(true);
 
-            var handler = new AddMoneyCommandHandler(mockUnitOfWork.Object);
+            var handler = new AddMoneyCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new AddMoneyCommand(Guid.NewGuid(), 100, "GBP", AccountType.Savings));
@@ -68,6 +70,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<AddMoneyCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -99,7 +102,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockTransactionsRepository.Setup(o => o.AddAsync(It.IsAny<Transaction>()))
                 .ReturnsAsync(true);
 
-            var handler = new AddMoneyCommandHandler(mockUnitOfWork.Object);
+            var handler = new AddMoneyCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new AddMoneyCommand(Guid.NewGuid(), 100, "GBP", AccountType.Savings));
@@ -117,6 +120,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<AddMoneyCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -148,7 +152,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockTransactionsRepository.Setup(o => o.AddAsync(It.IsAny<Transaction>()))
                 .ReturnsAsync(false);
 
-            var handler = new AddMoneyCommandHandler(mockUnitOfWork.Object);
+            var handler = new AddMoneyCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new AddMoneyCommand(Guid.NewGuid(), 100, "GBP", AccountType.Savings));
@@ -166,6 +170,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<AddMoneyCommandHandler>>();
             var mockCustomerAccountsRepository = new Mock<ICustomerAccountRepository>();
             var mockAccountsRepository = new Mock<IAccountRepository>();
             var mockVaultsRepository = new Mock<IVaultRepository>();
@@ -189,7 +194,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
             mockAccountsRepository.Setup(o => o.GetAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((AccountDTO)null);
 
-            var handler = new AddMoneyCommandHandler(mockUnitOfWork.Object);
+            var handler = new AddMoneyCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(new AddMoneyCommand(Guid.NewGuid(), 100, "GBP", AccountType.Savings));

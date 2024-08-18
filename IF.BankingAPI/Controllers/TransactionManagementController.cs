@@ -9,7 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IF.BankingAPI.Controllers
 {
+    /// <summary>
+    /// Admin API for Transaction Operations
+    /// Associates each Transaction with a CustomerAccount
+    /// </summary>
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "Banking API")]
     [ApiController]
     [Authorize]
     public class TransactionManagementController : ControllerBase
@@ -21,6 +26,11 @@ namespace IF.BankingAPI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
+        /// <summary>
+        /// Creates a Transaction
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateTransactionAsync([FromBody] CreateTransactionCommand command)
         {
@@ -31,6 +41,11 @@ namespace IF.BankingAPI.Controllers
                               error => BadRequest(error.Message));
         }
 
+        /// <summary>
+        /// Gets a Transaction by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("transaction/{id}")]
         public async Task<IActionResult> GetTransactionByIdAsync(Guid id)
         {
@@ -42,6 +57,11 @@ namespace IF.BankingAPI.Controllers
                               error => BadRequest(error.Message));
         }
 
+        /// <summary>
+        /// Gets all Transactions associated with a customer account
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
         [HttpGet("account/{accountId}")]
         public async Task<IActionResult> GetTransactionsByAccountIdAsync(Guid accountId)
         {

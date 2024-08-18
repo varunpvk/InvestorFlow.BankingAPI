@@ -4,15 +4,19 @@ using IF.Domain;
 using IF.Domain.Entities;
 using IF.Domain.ErrorMessages;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 
 namespace IF.Application.BankingService.CommandHandlers
 {
     public class CreateBankAccountCommandHandler : ICommandHandler<CreateBankAccountCommand, Result<bool, ValidationError>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CreateBankAccountCommandHandler(IUnitOfWork unitOfWork)
+        private readonly ILogger<CreateBankAccountCommandHandler> _logger;
+
+        public CreateBankAccountCommandHandler(IUnitOfWork unitOfWork, ILogger<CreateBankAccountCommandHandler> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<Result<bool, ValidationError>> HandleAsync(CreateBankAccountCommand command)
@@ -30,6 +34,7 @@ namespace IF.Application.BankingService.CommandHandlers
                 
                 if (!accountSuccess)
                 {
+                    _logger.LogError("Failed to create account");
                     _unitOfWork.Rollback();
                     return Result<bool, ValidationError>.Failure(new ValidationError("Failed to create account"));
                 }
@@ -42,6 +47,7 @@ namespace IF.Application.BankingService.CommandHandlers
 
                 if (!vaultSuccess)
                 {
+                    _logger.LogError("Failed to create vault");
                     _unitOfWork.Rollback();
                     return Result<bool, ValidationError>.Failure(new ValidationError("Failed to create vault"));
                 }
@@ -55,16 +61,19 @@ namespace IF.Application.BankingService.CommandHandlers
 
                 if(!customerAccountSuccess)
                 {
+                    _logger.LogError("Failed to create customer account");
                     _unitOfWork.Rollback();
                     return Result<bool, ValidationError>.Failure(new ValidationError("Failed to create customer account"));
                 }
 
                 //commit the work
+                _logger.LogInformation("Bank Account created successfully");
                 _unitOfWork.Commit();
                 return Result<bool, ValidationError>.Success(true);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Exception while creating bank account");
                 _unitOfWork.Rollback();
                 return Result<bool, ValidationError>.Failure(new ValidationError($"Exception while creating bank account: {ex.Message}"));
             }

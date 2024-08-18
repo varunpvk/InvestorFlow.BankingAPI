@@ -6,16 +6,19 @@ using IF.Domain.Enums;
 using IF.Domain.ErrorMessages;
 using IF.Domain.ValueObjects;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 
 namespace IF.Application.BankingService.CommandHandlers
 {
     public class AddMoneyCommandHandler : ICommandHandler<AddMoneyCommand, Result<bool, ValidationError>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<AddMoneyCommandHandler> _logger;
 
-        public AddMoneyCommandHandler(IUnitOfWork unitOfWork)
+        public AddMoneyCommandHandler(IUnitOfWork unitOfWork, ILogger<AddMoneyCommandHandler> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<Result<bool, ValidationError>> HandleAsync(AddMoneyCommand command)
@@ -43,6 +46,7 @@ namespace IF.Application.BankingService.CommandHandlers
 
                         if (!success)
                         {
+                            _logger.LogError("Failed to update vault");
                             _unitOfWork.Rollback();
                             return Result<bool, ValidationError>.Failure(new ValidationError("Failed to update vault"));
                         }
@@ -57,20 +61,24 @@ namespace IF.Application.BankingService.CommandHandlers
 
                         if (!transactionSuccess)
                         {
+                            _logger.LogError("Failed to add transaction");
                             _unitOfWork.Rollback();
                             return Result<bool, ValidationError>.Failure(new ValidationError("Failed to add transaction"));
                         }
 
+                        _logger.LogInformation("Money added successfully");
                         _unitOfWork.Commit();
                         return Result<bool, ValidationError>.Success(true);
                     }
                 }
 
+                _logger.LogError("Failed to add money");
                 _unitOfWork.Rollback();
                 return Result<bool, ValidationError>.Failure(new ValidationError("Failed to add money"));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Exception while adding money");
                 _unitOfWork.Rollback();
                 return Result<bool, ValidationError>.Failure(new ValidationError($"Exception while adding money: {ex.Message}"));
             }

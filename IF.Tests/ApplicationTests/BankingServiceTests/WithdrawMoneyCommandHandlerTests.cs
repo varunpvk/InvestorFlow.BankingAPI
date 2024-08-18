@@ -5,6 +5,7 @@ using IF.Domain.Entities;
 using IF.Domain.Enums;
 using IF.Infrastructure;
 using IF.Infrastructure.BankingRepository;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace IF.Tests.ApplicationTests.BankingServiceTests
@@ -16,6 +17,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<WithdrawMoneyCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -48,7 +50,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new WithdrawMoneyCommand(Guid.NewGuid(), 100, "USD", AccountType.Savings);
 
-            var handler = new WithdrawMoneyCommandHandler(mockUnitOfWork.Object);
+            var handler = new WithdrawMoneyCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(command);
@@ -66,6 +68,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<WithdrawMoneyCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -98,7 +101,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new WithdrawMoneyCommand(Guid.NewGuid(), 100, "USD", AccountType.Savings);
 
-            var handler = new WithdrawMoneyCommandHandler(mockUnitOfWork.Object);
+            var handler = new WithdrawMoneyCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(command);
@@ -115,6 +118,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<WithdrawMoneyCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -145,7 +149,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new WithdrawMoneyCommand(Guid.NewGuid(), 100, "USD", AccountType.Savings);
 
-            var handler = new WithdrawMoneyCommandHandler(mockUnitOfWork.Object);
+            var handler = new WithdrawMoneyCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(command);
@@ -163,6 +167,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
         {
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockLogger = new Mock<ILogger<WithdrawMoneyCommandHandler>>();
             var mockCustomerAccounts = new Mock<ICustomerAccountRepository>();
             var mockAccounts = new Mock<IAccountRepository>();
             var mockVaults = new Mock<IVaultRepository>();
@@ -188,7 +193,7 @@ namespace IF.Tests.ApplicationTests.BankingServiceTests
 
             var command = new WithdrawMoneyCommand(Guid.NewGuid(), 100, "USD", AccountType.Savings);
 
-            var handler = new WithdrawMoneyCommandHandler(mockUnitOfWork.Object);
+            var handler = new WithdrawMoneyCommandHandler(mockUnitOfWork.Object, mockLogger.Object);
 
             // Act
             var result = await handler.HandleAsync(command);
