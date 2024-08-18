@@ -9,7 +9,6 @@ RUN dotnet restore "./IF.BankingAPI.csproj"
 
 # Copy the rest of the application code
 COPY . .
-RUN dotnet build "./IF.BankingAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 RUN dotnet publish "./IF.BankingAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
 # Use the official .NET runtime image to run the application
