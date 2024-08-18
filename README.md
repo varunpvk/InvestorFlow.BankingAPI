@@ -41,6 +41,14 @@ IF.BankingAPI is a sample ASP.NET Core Web API for managing banking operations.
 1. **Access the API**		
    Open your browser and navigate to `https://localhost:8080/swagger/index.html` to view the API documentation.
 
+### API Documentation
+
+### Gateway API
+
+The API is designed using DDD, where the core functionality exposed to end users is aviailable throught Gatewaty API.
+
+![Gateway API](/Images/APIDoc_GatewayAPI.png)
+
 ## API Endpoints
 
 - Account Management
