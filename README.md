@@ -43,11 +43,27 @@ IF.BankingAPI is a sample ASP.NET Core Web API for managing banking operations.
 
 ### API Documentation
 
-### Gateway API
+#### Gateway API
 
-The API is designed using DDD, where the core functionality exposed to end users is aviailable throught Gatewaty API.
+The API is designed using DDD, where the core functionality exposed to end users is aviailable throught Gateway API.
 
 ![Gateway API](/Images/APIDoc_GatewayAPI.png)
+
+Since this isa public gateway endpoint, you need not use any authentication to access the api.
+
+#### Admin API
+The project offers admin access to deep dive into individual services/artifacts that are part of the Banking Workflow.
+
+![Admin API](/Images/APIDoc_AdminAPI.png)
+
+You will need to authenticate using Auth Endpoint inorder to access the API
+
+**Login Credentials**: 
+		UserName: admin	
+		Password: admin
+
+![Authentication](/Images/Admin_Access.png)
+![Authorization](/Images/AuthZ.png)
 
 ## API Endpoints
 
