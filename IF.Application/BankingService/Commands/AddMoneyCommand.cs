@@ -1,0 +1,21 @@
+﻿using IF.Application.Abstractions;
+using IF.Domain.Enums;
+
+namespace IF.Application.BankingService.Commands
+{
+    public class AddMoneyCommand : ICommand
+    {
+        public Guid CustomerId { get; private set; }
+        public decimal Amount { get; private set; }
+        public string Currency { get; private set; }
+        public AccountType Type { get; private set; }
+
+        public AddMoneyCommand(Guid customerId, decimal amount, string currency, AccountType accountType)
+        {
+            CustomerId = customerId;
+            Amount = amount;
+            Currency = currency;
+            Type = accountType;
+        }
+    }
+}
