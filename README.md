@@ -211,7 +211,7 @@ The application uses SQLite as the backend database. The database file is locate
 
 ### Support
 
--	If things go south and you donot know whom to contact, feel free to reach out to me: 
+-	If things go south, feel free to reach out to me: 
 -	Email: varunpvk@gmail.com
 
 
