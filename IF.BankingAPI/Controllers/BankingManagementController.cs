@@ -24,7 +24,7 @@ namespace IF.BankingAPI.Controllers
             _logger = logger;
         }
 
-        [HttpPost("create")]
+        [HttpPost("create-customer-account")]
         public async Task<IActionResult> CreateBankAccountAsync([FromBody] CreateBankAccountCommand command)
         {
             _logger.LogInformation("Creating Bank Account for Customer {CustomerId}", command.CustomerId);
@@ -36,7 +36,7 @@ namespace IF.BankingAPI.Controllers
             );
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("delete-customer-account")]
         public async Task<IActionResult> DeleteBankAccountAsync([FromBody] DeleteBankAccountCommand command)
         {
             _logger.LogInformation("Deleting Bank Account {Id}", command.CustomerId);

@@ -30,8 +30,10 @@ IF.BankingAPI is a sample ASP.NET Core Web API for managing banking operations.
 	``` dotnet run```
 
 4. **Access the API**		
+
+	![Swagger](/Images/Swagger.png)
    
-   Open your browser and navigate to `https://localhost:5001/swagger/index.html` to view the API documentation.
+   Open your browser and navigate to `https://localhost:7223/index.html` to view the API documentation.
 
 ### Run with Docker
 1. **Build the Docker image**:
