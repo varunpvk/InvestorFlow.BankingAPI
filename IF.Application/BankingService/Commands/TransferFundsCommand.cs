@@ -11,13 +11,13 @@ namespace IF.Application.BankingService.Commands
         public string Currency { get; private set; }
         public AccountType Type { get; private set; }
 
-        public TransferFundsCommand(Guid customerId, AccountType accountType, Guid destinationAccount, decimal amount, string currency)
+        public TransferFundsCommand(Guid customerId, AccountType type, Guid destinationAccountId, decimal amount, string currency)
         {
             CustomerId = customerId;
-            DestinationAccountId = destinationAccount;
+            DestinationAccountId = destinationAccountId;
             Amount = amount;
             Currency = currency;
-            Type = accountType;
+            Type = type;
         }
     }
 }

@@ -92,10 +92,10 @@ namespace IF.BankingAPI.Controllers
         }
 
         [HttpGet("transaction-history")]
-        public async Task<IActionResult> GetTransactionHistoryAsync([FromBody] GetTransactionHistoryQuery query)
+        public async Task<IActionResult> GetTransactionHistoryAsync(Guid customerId)
         {
-            _logger.LogInformation("Getting Transaction History for Account {Id}", query.CustomerId);
-            //var query = new GetTransactionHistoryQuery(id);
+            _logger.LogInformation("Getting Transaction History for Account {Id}", customerId);
+            var query = new GetTransactionHistoryQuery(customerId);
             var result = await _commandDispatcher.QueryAsync<GetTransactionHistoryQuery, Result<IDictionary<Guid, IList<TransactionDTO>>, NotFoundError>>(query);
 
             return result.Match<IActionResult>(

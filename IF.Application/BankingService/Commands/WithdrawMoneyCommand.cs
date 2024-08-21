@@ -10,12 +10,12 @@ namespace IF.Application.BankingService.Commands
         public string Currency { get; private set; }
         public AccountType Type { get; private set; }
 
-        public WithdrawMoneyCommand(Guid customerId, decimal amount, string currency, AccountType accountType)
+        public WithdrawMoneyCommand(Guid customerId, decimal amount, string currency, AccountType type)
         {
             CustomerId = customerId;
             Amount = amount;
             Currency = currency;
-            Type = accountType;
+            Type = type;
         }
     }
 }
