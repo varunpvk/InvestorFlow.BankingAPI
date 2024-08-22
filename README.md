@@ -19,15 +19,15 @@ IF.BankingAPI is a sample ASP.NET Core Web API for managing banking operations.
 
 1. **Restore Dependencies**
 
-	``` dotnet restore```
+	``` dotnet restore InvestorFlowBanking.sln```
 
 2. **Build the application**
 
-	``` dotnet build```
+	``` dotnet build InvestorFlowBanking.sln```
 
 3. **Run the application**
 
-	``` dotnet run```
+	``` dotnet run --project IF.BankingAPI.csproj```
 
 4. **Access the API**		
 
